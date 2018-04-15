@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    {% block GraphMeta %}
+        <meta property="og:title" content="{{ title }}"/>
+        <meta property="og:url" content="{{ url }}{{ req.originalUrl }}"/>
+        <meta property="og:image" content="{{ url }}/favicon.ico"/>
+        <meta property="og:locale" content="es_ES"/>
+        <meta property="og:description" content=""/>
+        <meta property="og:site_name" content="My Site Name"/>
+    {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
+</html>
