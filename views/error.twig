@@ -47,8 +47,9 @@
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Error: {{ message }}</h1><br>
-    <h2>status: {{ error.status|default("500") }}</h2><br>
+    <h1>{{ message }}</h1><br>
+    <h2>status: {{ error.status | default("500") }}</h2><br>
+
     {% if env == "development" %}
         stack:<br>
         <pre>{{ error.stack }}</pre>

@@ -52,7 +52,7 @@ app.use('api/enterprise', require("./routes/empresa"));
 app.use(function (req, res, next) {
     let err = new Error('Not Found');
     err.status = 404;
-    res.locals.message = err.message;
+    res.locals.message = 'Page Not Found';
     res.locals.error = err;
     res.locals.env = req.app.get('env');
 
@@ -65,13 +65,9 @@ app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = err;
     res.locals.env = req.app.get('env');
-    if (err && err.status === 404) {
-        res.render('notFound')
-    } else {
-        // render the error page
-        res.status(err.status || 500);
-        res.render('error');
-    }
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
