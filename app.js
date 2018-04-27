@@ -44,6 +44,7 @@ app.use('api/*', function (req, res, next) {
 });
 
 //todo create  mock endpionts
+app.use('api/', require("./routes/empresa"));
 app.use('api/user', require("./routes/client"));
 app.use('api/enterprise', require("./routes/empresa"));
 
