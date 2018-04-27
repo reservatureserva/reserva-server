@@ -21,13 +21,5 @@
     "tedious": "1.12.1",
     "twig": "~0.10.3"
   },
-  "devDependencies": {
-    "angular": "^1.6.5",
-    "angular-animate": "^1.6.5",
-    "angular-aria": "^1.6.5",
-    "angular-data-grid": "^1.0.0",
-    "angular-material": "^1.1.4",
-    "angular-messages": "^1.6.6",
-    "yarn": "^0.27.5"
-  }
+  "devDependencies": {}
 }

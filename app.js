@@ -36,7 +36,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('api/*', function (req, res, next) {
+app.use('/api/*', function (req, res, next) {
+    //disable cache
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.header('Expires', '-1');
     res.header('Pragma', 'no-cache');
@@ -44,9 +45,9 @@ app.use('api/*', function (req, res, next) {
 });
 
 //todo create  mock endpionts
-app.use('api/', require("./routes/empresa"));
-app.use('api/user', require("./routes/client"));
-app.use('api/enterprise', require("./routes/empresa"));
+app.use('/api', require("./routes/shared"));
+app.use('/api/user', require("./routes/client"));
+app.use('/api/enterprise', require("./routes/empresa"));
 
 
 // catch 404 and forward to error handler
@@ -56,7 +57,6 @@ app.use(function (req, res, next) {
     res.locals.message = 'Page Not Found';
     res.locals.error = err;
     res.locals.env = req.app.get('env');
-
     //forward to error handler
     next(err);
 });

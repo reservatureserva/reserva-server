@@ -1,10 +1,6 @@
 const app = require('express').Router();
-const path = require('path');
-const shared = require('./shared');
 
-
-app.get('categorias', function (res, req, next) {
-
+app.use('/categorias', function (req, res, next) {
     res.json([{name: ""}])
 });
 

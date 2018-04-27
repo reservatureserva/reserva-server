@@ -1,5 +1,4 @@
 const app = require('express').Router();
-const path = require('path');
 
 //api auth middleware
 app.use(function (req, res, next) {

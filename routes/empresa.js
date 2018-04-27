@@ -1,6 +1,5 @@
 const app = require('express').Router();
-const path = require('path');
-const shared = require('./shared');
+
 //api auth middleware
 app.use(function (req, res, next) {
     //todo impl
