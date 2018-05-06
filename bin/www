@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 const path = require('path');
 
-// console.log(path.dirname(path.dirname(path.resolve(module.filename))));
-process.chdir(path.dirname(path.dirname(path.resolve(module.filename))));
+console.log("wd",path.dirname(path.dirname(path.resolve(module.filename))));
+// process.chdir(path.dirname(path.dirname(path.resolve(module.filename))));
 
+//todo comentar esta linea para desactivar el modo debug
+process.env['DEBUG']="http,mail,express:*";
 /**
  * Module dependencies.
  */

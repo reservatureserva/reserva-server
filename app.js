@@ -8,18 +8,18 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const timeout = require('connect-timeout');
 const compression = require('compression');
+const elasticsearch = require('elasticsearch');
+const config = require('./appConfig');
 
 const app = express();
 
-app.set("env", "dist");
-// app.set("env", "development");
+app.set("env", "development");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
-app.use(timeout('30s'));
-
-app.use(compression());
+app.use(timeout('60s'));
+app.use(compression({}));
 // uncomment after placing your favicon in /static
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -35,12 +35,23 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+const elasticClient = new elasticsearch.Client({
+    host: config.elastic.host
+});
 
+app.use(function (req, res, next) {
+    req.elasticClient = elasticClient;
+    next()
+});
 app.use('/api/*', function (req, res, next) {
     //disable cache
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.header('Expires', '-1');
     res.header('Pragma', 'no-cache');
+
+    if (req.session.token) {
+
+    }
     next();
 });
 
@@ -54,21 +65,25 @@ app.use('/api/enterprise', require("./routes/empresa"));
 app.use(function (req, res, next) {
     let err = new Error('Not Found');
     err.status = 404;
-    res.locals.message = 'Page Not Found';
-    res.locals.error = err;
-    res.locals.env = req.app.get('env');
     //forward to error handler
     next(err);
 });
 // error handler
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = err;
-    res.locals.env = req.app.get('env');
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    let status = res.status() !== 200 ? 200 : 500;
+    let code = err.code || 500;
+    if (req.timeout) {
+        status = 503;
+        code = 503
+    }
+    res.status(status);
+    console.error(err);
+    console.error(err.stack);
+    let message = config.messages[code] || config.messages[500];
+    res.json({
+        status: false,
+        message: message,
+    });
 });
 
 module.exports = app;

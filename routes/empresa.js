@@ -1,16 +1,15 @@
 const app = require('express').Router();
+const UserController = require('../controllers/users');
 
 //api auth middleware
 app.use(function (req, res, next) {
-    //todo impl
-    next()
+    if (!['/register', '/login', '/logout'].includes(req.path) && !UserController.validateToken(req)) {
+        //require autentificacion
+        utils.error(next, 'EAUTH')
+    } else {
+        next()
+    }
 });
-
-app.post('/store', function (req, res, next) {
-    res.json({})
-});
-app.get('/store', function (req, res, next) {
-    res.json({})
-});
+new UserController(UserController.TYPE_EMPRESA).mount(app);
 
 module.exports = app;
